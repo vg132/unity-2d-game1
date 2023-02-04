@@ -1,10 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,6 +18,8 @@ public class PlayerController : MonoBehaviour
 	private Collider2D _playerCollider;
 	private Animator _playerAnimator;
 	private SpriteRenderer _spriteRenderer;
+	private AudioSource _audioSource;
+	private AudioClip _deathSound;
 
 	private void Awake()
 	{
@@ -30,6 +28,7 @@ public class PlayerController : MonoBehaviour
 		_playerCollider = GetComponent<Collider2D>();
 		_playerAnimator = GetComponent<Animator>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
+		_audioSource = GetComponent<AudioSource>();
 	}
 
 	private void OnEnable()
@@ -45,9 +44,10 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
 		_playerActionControls.Land.Jump.performed += ctx => Jump(ctx);
+		_deathSound = Resources.Load<AudioClip>("Death");
 	}
 
-	private void Jump(CallbackContext context)
+	private void Jump(UnityEngine.InputSystem.InputAction.CallbackContext context)
 	{
 		if (IsGrounded())
 		{
@@ -95,7 +95,18 @@ public class PlayerController : MonoBehaviour
 	{
 		if(collision.gameObject.CompareTag("Enemy"))
 		{
+			//StartCoroutine(PlaySound());
+
+			MusicManager.Instance.PlaySound(MusicManager.GameSounds.Death);
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 	}
+
+	//private IEnumerator PlaySound()
+	//{
+	//	_audioSource.clip = _deathSound;
+	//	_audioSource.Play();
+	//	yield return new WaitUntil(() => !_audioSource.isPlaying);
+	//	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	//}
 }
