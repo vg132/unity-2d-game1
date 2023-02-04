@@ -157,7 +157,7 @@ PlayerSettings:
   applicationIdentifier:
     Standalone: com.DefaultCompany.2DProject
   buildNumber:
-    Standalone: 5
+    Standalone: 6
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
