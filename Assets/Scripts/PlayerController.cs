@@ -45,10 +45,6 @@ public class PlayerController : MonoBehaviour
 
 	private void Jump(UnityEngine.InputSystem.InputAction.CallbackContext context)
 	{
-		if (GameState.Instance.PlayerState == GameState.State.Dead || GameState.Instance.PlayerState == GameState.State.Finished)
-		{
-			return;
-		}
 		if (IsGrounded())
 		{
 			_playerObject.AddForce(new Vector2(0, _jumpSpeed), ForceMode2D.Impulse);
@@ -76,11 +72,6 @@ public class PlayerController : MonoBehaviour
 
 	private void Move()
 	{
-		if (GameState.Instance.PlayerState == GameState.State.Dead || GameState.Instance.PlayerState == GameState.State.Finished)
-		{
-			_playerAnimator.SetBool("Run", false);
-			return;
-		}
 		var movmentInput = _playerActionControls.Land.Move.ReadValue<float>();
 		var currentPosition = transform.position;
 		currentPosition.x += movmentInput * _speed * Time.deltaTime;
@@ -100,7 +91,6 @@ public class PlayerController : MonoBehaviour
 	{
 		if(collision.gameObject.CompareTag("Enemy"))
 		{
-			GameState.Instance.PlayerState = GameState.State.Dead;
 			MusicManager.Instance.PlaySound(MusicManager.GameSounds.Death);
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}

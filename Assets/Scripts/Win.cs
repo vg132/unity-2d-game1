@@ -6,7 +6,6 @@ public class Win : MonoBehaviour
 	{
 		if(collision.gameObject.CompareTag("Player"))
 		{
-			GameState.Instance.PlayerState = GameState.State.Finished;
 			MusicManager.Instance.PlaySound(MusicManager.GameSounds.Finish);
 			GetComponent<Animator>().SetTrigger("Open");
 		}
