@@ -26,10 +26,26 @@ public class MusicManager : MonoBehaviour
 
 	public static MusicManager Instance => _instance;
 
+	public void Start()
+	{
+		_backgroundMusic.Play();
+	}
+
 	public void PlaySound(string resourceName)
 	{
 		_soundEffect.clip = Resources.Load<AudioClip>(resourceName);
 		_soundEffect.Play();
+	}
+
+	public void PlaySound(AudioClip audioClip)
+	{
+		_soundEffect.clip = audioClip;
+		_soundEffect.Play();
+	}
+
+	public void PlaySound(AudioSource audioSource)
+	{
+		audioSource.Play();
 	}
 
 	public class GameSounds
