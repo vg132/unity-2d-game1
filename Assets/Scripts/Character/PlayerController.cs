@@ -45,6 +45,10 @@ public class PlayerController : MonoBehaviour
 
 	private void Jump(UnityEngine.InputSystem.InputAction.CallbackContext context)
 	{
+		if(GameManager.Instance.GameState != GameStateEnum.GameRunning)
+		{
+			return;
+		}
 		if (IsGrounded())
 		{
 			_playerObject.AddForce(new Vector2(0, _jumpSpeed), ForceMode2D.Impulse);
@@ -67,6 +71,10 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
+		if (GameManager.Instance.GameState != GameStateEnum.GameRunning)
+		{
+			return;
+		}
 		Move();
 	}
 

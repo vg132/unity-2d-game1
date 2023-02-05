@@ -14,6 +14,14 @@ public class Coin : MonoBehaviour
 	private float _speed = 1.5f;
 
 	[SerializeField]
+	private int _minValue;
+
+	[SerializeField]
+	private int _maxValue;
+
+	private int _value;
+
+	[SerializeField]
 	private AnimationDirection _animationDirection;
 
 	private void Start()
@@ -23,6 +31,7 @@ public class Coin : MonoBehaviour
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 
 		_startPosition = transform.position;
+		_value = Random.Range(_minValue, _maxValue);
 	}
 
 	private void Update()
@@ -44,6 +53,7 @@ public class Coin : MonoBehaviour
 			SoundManager.Instance.PlaySound(_audioSource);
 			_spriteRenderer.enabled = false;
 			_boxCollider.enabled = false;
+			GameManager.Instance.Coins += _value;
 		}
 	}
 }
