@@ -1,18 +1,14 @@
 using UnityEngine;
 
-public class MusicManager : MonoBehaviour
+public class SoundManager : MonoBehaviour
 {
-	private static MusicManager _instance;
+	private static SoundManager _instance;
 
 	private AudioSource _backgroundMusic;
 	private AudioSource _soundEffect;
 
 	private void Awake()
 	{
-		var audioSources = GetComponents<AudioSource>();
-		_backgroundMusic = audioSources[0];
-		_soundEffect = audioSources[1];
-
 		DontDestroyOnLoad(this);
 		if(_instance == null)
 		{
@@ -22,9 +18,12 @@ public class MusicManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
+		var audioSources = GetComponents<AudioSource>();
+		_backgroundMusic = audioSources[0];
+		_soundEffect = audioSources[1];
 	}
 
-	public static MusicManager Instance => _instance;
+	public static SoundManager Instance => _instance;
 
 	public void Start()
 	{

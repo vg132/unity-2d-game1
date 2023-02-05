@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if(collision.gameObject.CompareTag("Enemy"))
 		{
-			MusicManager.Instance.PlaySound(MusicManager.GameSounds.Death);
+			SoundManager.Instance.PlaySound(SoundManager.GameSounds.Death);
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 	}

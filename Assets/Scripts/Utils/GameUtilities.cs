@@ -9,6 +9,7 @@ public class GameUtilities : MonoBehaviour
 
 	public void Start()
 	{
+		DontDestroyOnLoad(this);
 		if (_instance != null)
 		{
 			Destroy(this);

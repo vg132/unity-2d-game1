@@ -242,3 +242,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c86565a371e437749b691370e1b2a559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _amplitude: 2
+  _animationDirection: 0

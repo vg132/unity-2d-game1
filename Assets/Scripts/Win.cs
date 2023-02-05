@@ -6,7 +6,7 @@ public class Win : MonoBehaviour
 	{
 		if(collision.gameObject.CompareTag("Player"))
 		{
-			MusicManager.Instance.PlaySound(MusicManager.GameSounds.Finish);
+			SoundManager.Instance.PlaySound(SoundManager.GameSounds.Finish);
 			GetComponent<Animator>().SetTrigger("Open");
 		}
 	}
