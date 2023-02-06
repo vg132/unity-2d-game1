@@ -5,6 +5,7 @@ public class Coin : MonoBehaviour
 	private BoxCollider2D _boxCollider;
 	private AudioSource _audioSource;
 	private SpriteRenderer _spriteRenderer;
+	private ParticleSystem _particleSystem;
 	private Vector3 _startPosition;
 
 	[SerializeField]
@@ -29,6 +30,7 @@ public class Coin : MonoBehaviour
 		_boxCollider = GetComponent<BoxCollider2D>();
 		_audioSource = GetComponent<AudioSource>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
+		_particleSystem = GetComponent<ParticleSystem>();
 
 		_startPosition = transform.position;
 		_value = Random.Range(_minValue, _maxValue);
