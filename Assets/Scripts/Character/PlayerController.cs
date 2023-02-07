@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,11 +22,29 @@ public class PlayerController : MonoBehaviour
 
 	private void Awake()
 	{
-		_playerActionControls = new PlayerActionControls();
 		_playerObject = GetComponent<Rigidbody2D>();
 		_playerCollider = GetComponent<Collider2D>();
 		_playerAnimator = GetComponent<Animator>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
+
+		_playerActionControls = new PlayerActionControls();
+		_playerActionControls.Land.Jump.performed += ctx => Jump(ctx);
+	}
+
+	private void Start()
+	{
+		GameManager.OnDeath += GameManager_OnDeath;
+	}
+
+	private void OnDestroy()
+	{
+		GameManager.OnDeath -= GameManager_OnDeath;
+	}
+
+	private void GameManager_OnDeath()
+	{
+		_playerActionControls.Disable();
+		_playerAnimator.SetTrigger("Death");
 	}
 
 	private void OnEnable()
@@ -36,11 +55,6 @@ public class PlayerController : MonoBehaviour
 	private void OnDisable()
 	{
 		_playerActionControls.Disable();
-	}
-
-	private void Start()
-	{
-		_playerActionControls.Land.Jump.performed += ctx => Jump(ctx);
 	}
 
 	private void Jump(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -95,12 +109,8 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	public void TakeDamage(int damageAmount)
 	{
-		if(collision.gameObject.CompareTag("Enemy"))
-		{
-			SoundManager.Instance.PlaySound(SoundManager.GameSounds.Death);
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-		}
+		GameManager.Instance.UpdateHealth(damageAmount);
 	}
 }

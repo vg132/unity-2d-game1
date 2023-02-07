@@ -30,26 +30,20 @@ public class SoundManager : MonoBehaviour
 		_backgroundMusic.Play();
 	}
 
-	public void PlaySound(string resourceName)
-	{
-		_soundEffect.clip = Resources.Load<AudioClip>(resourceName);
-		_soundEffect.Play();
-	}
-
 	public void PlaySound(AudioClip audioClip)
 	{
-		_soundEffect.clip = audioClip;
-		_soundEffect.Play();
+		if(audioClip!=null)
+		{
+			_soundEffect.clip = audioClip;
+			_soundEffect.Play();
+		}
 	}
 
 	public void PlaySound(AudioSource audioSource)
 	{
-		audioSource.Play();
-	}
-
-	public class GameSounds
-	{
-		public static string Death => "Death";
-		public static string Finish => "Finish";
+		if (audioSource != null)
+		{
+			audioSource.Play();
+		}
 	}
 }

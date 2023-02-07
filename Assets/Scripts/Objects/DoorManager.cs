@@ -16,7 +16,7 @@ public class DoorManager : MonoBehaviour
 	[SerializeField]
 	private AudioSource _stateChangeSound;
 
-	private void Start()
+	private void Awake()
 	{
 		_openDoorSpriteRenderers = _openDoor.GetComponentsInChildren<SpriteRenderer>();
 		_closedDoorSpriteRenderers = _closedDoor.GetComponentsInChildren<SpriteRenderer>();

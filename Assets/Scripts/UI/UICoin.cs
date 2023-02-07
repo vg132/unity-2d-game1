@@ -5,13 +5,19 @@ public class UICoin : MonoBehaviour
 {
 	private TextMeshProUGUI _coinText;
 
-	private void Start()
+	private void Awake()
 	{
 		_coinText = GetComponent<TextMeshProUGUI>();
 	}
 
-	private void Update()
+	private void Start()
 	{
-		_coinText.SetText($"Coins: {GameManager.Instance.Coins}");
+		GameManager.OnPointsChanged += GameManager_OnPointsChanged;
+		_coinText.SetText($"Coins: {GameManager.Instance.Points}");
+	}
+
+	private void GameManager_OnPointsChanged(int points)
+	{
+		_coinText.SetText($"Coins: {points}");
 	}
 }

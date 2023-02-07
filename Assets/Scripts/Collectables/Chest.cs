@@ -16,11 +16,14 @@ public class Chest : MonoBehaviour
 	private Collider2D _collider;
 	private ParticleSystem _particleSystem;
 
-	private void Start()
+	private void Awake()
 	{
 		_collider = GetComponent<Collider2D>();
 		_particleSystem = GetComponent<ParticleSystem>();
+	}
 
+	private void Start()
+	{
 		_value = Random.Range(_minValue, _maxValue);
 	}
 
@@ -31,7 +34,7 @@ public class Chest : MonoBehaviour
 			_particleSystem.Play();
 			SoundManager.Instance.PlaySound(_sound);
 			GetComponent<Animator>().SetTrigger("Open");
-			GameManager.Instance.Coins += _value;
+			GameManager.Instance.UpdatePoints(_value);
 			_collider.enabled = false;
 		}
 	}
