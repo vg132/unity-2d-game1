@@ -1,28 +1,15 @@
 using UnityEngine;
 
-public class EnemyMace : MonoBehaviour
+public class EnemySpike : MonoBehaviour
 {
 	private AudioSource _audioSource;
-	private Vector3 startPosition;
 
-	[SerializeField]
-	private float _amplitude = 2.0f;
 	[SerializeField]
 	protected int _damage = 1;
 
 	private void Awake()
 	{
 		_audioSource = GetComponent<AudioSource>();
-	}
-
-	private void Start()
-	{
-		startPosition = transform.position;
-	}
-
-	private void Update()
-	{
-		transform.position = startPosition + _amplitude * new Vector3(0.0f, Mathf.Sin(Time.time), 0.0f);
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
@@ -34,3 +21,4 @@ public class EnemyMace : MonoBehaviour
 		}
 	}
 }
+
