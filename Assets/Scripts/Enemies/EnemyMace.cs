@@ -27,7 +27,7 @@ public class EnemyMace : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.gameObject.CompareTag("Player"))
+		if (collision.gameObject.CompareTag("Player") && GameManager.Instance.GameState == GameStateEnum.GameRunning)
 		{
 			collision.gameObject.GetComponent<PlayerController>().TakeDamage(_damage);
 			SoundManager.Instance.PlaySound(_audioSource);

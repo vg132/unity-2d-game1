@@ -16,6 +16,11 @@ public class DoorManager : MonoBehaviour
 	[SerializeField]
 	private AudioSource _stateChangeSound;
 
+	[SerializeField]
+	private bool _isFinish = false;
+
+	private bool _active = false;
+
 	private void Awake()
 	{
 		_openDoorSpriteRenderers = _openDoor.GetComponentsInChildren<SpriteRenderer>();
@@ -34,16 +39,18 @@ public class DoorManager : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.gameObject.CompareTag("Player"))
+		if (collision.gameObject.CompareTag("Player") && (!_isFinish || !_active))
 		{
 			_doorState = DoorStateEnum.Open;
+			_active = true;
 			SoundManager.Instance.PlaySound(_stateChangeSound);
+			GameManager.Instance.LoadNextScene(2);
 		}
 	}
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
-		if (collision.gameObject.CompareTag("Player"))
+		if (collision.gameObject.CompareTag("Player") && !_isFinish)
 		{
 			_doorState = DoorStateEnum.Closed;
 			SoundManager.Instance.PlaySound(_stateChangeSound);

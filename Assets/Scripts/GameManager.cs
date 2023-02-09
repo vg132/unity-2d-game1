@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
 	public static event Action<int> OnHealthChanged;
 	public static event Action<int> OnPointsChanged;
 	public static event Action OnDeath;
+	public static event Action OnFadeIn;
+	public static event Action OnFadeOut;
 
 	private void Awake()
 	{
@@ -39,21 +41,47 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		OnDeath += GameManager_OnDeath;
+		SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+		SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+		SceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
+	}
+
+	private void SceneManager_sceneUnloaded(Scene scene)
+	{
+		Debug.Log($"Scene unloaded: {scene.name}");
+	}
+
+	private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		Debug.Log($"Scene loaded: {scene.name}");
+	}
+
+	private void SceneManager_activeSceneChanged(Scene current, Scene next)
+	{
+		Debug.Log($"Current: {current.name}, Next: {next.name}");
 	}
 
 	private void OnDestroy()
 	{
 		OnDeath -= GameManager_OnDeath;
+		SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
+		SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+		SceneManager.sceneUnloaded -= SceneManager_sceneUnloaded;
 	}
 
 	private void GameManager_OnDeath()
 	{
-		RestartLevel(3.0f);
+		UpdateGameState(GameStateEnum.PlayerDead);
+		RestartLevel(1.5f);
 	}
 
 	private void Setup()
 	{
+		Debug.Log("GameManager Setup");
+		OnFadeIn?.Invoke();
+		UpdateGameState(GameStateEnum.GameRunning);
 		_unitHealth = new UnitHealth(10);
+		OnHealthChanged?.Invoke(_unitHealth.Health);
 	}
 
 	public void UpdatePoints(int pointsAmount)
@@ -98,6 +126,11 @@ public class GameManager : MonoBehaviour
 		LoadScene(buildIndex, delayInSeconds);
 	}
 
+	public void LoadNextScene(float delayInSeconds = 0)
+	{
+		LoadScene(SceneManager.GetActiveScene().buildIndex + 1, delayInSeconds);
+	}
+
 	public void LoadScene(int index, float delayInSeconds = 0)
 	{
 		StartCoroutine(LoadLevelAsync(index, delayInSeconds));
@@ -105,6 +138,7 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator LoadLevelAsync(int buildIndex, float delayInSeconds)
 	{
+		OnFadeOut?.Invoke();
 		if (delayInSeconds > 0)
 		{
 			yield return new WaitForSeconds(delayInSeconds);
@@ -117,6 +151,6 @@ public class GameManager : MonoBehaviour
 			//_loadingSlider.value = loadingProgress;
 			yield return null;
 		};
-		UpdateHealth(-10);
+		Setup();
 	}
 }
