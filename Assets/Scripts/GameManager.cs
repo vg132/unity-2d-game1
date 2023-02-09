@@ -21,8 +21,7 @@ public class GameManager : MonoBehaviour
 	public static event Action<int> OnHealthChanged;
 	public static event Action<int> OnPointsChanged;
 	public static event Action OnDeath;
-	public static event Action OnFadeIn;
-	public static event Action OnFadeOut;
+	public static event Action<FadeType> OnFade;
 
 	private void Awake()
 	{
@@ -78,7 +77,7 @@ public class GameManager : MonoBehaviour
 	private void Setup()
 	{
 		Debug.Log("GameManager Setup");
-		OnFadeIn?.Invoke();
+		OnFade?.Invoke(FadeType.FadeIn);
 		UpdateGameState(GameStateEnum.GameRunning);
 		_unitHealth = new UnitHealth(10);
 		OnHealthChanged?.Invoke(_unitHealth.Health);
@@ -138,7 +137,7 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator LoadLevelAsync(int buildIndex, float delayInSeconds)
 	{
-		OnFadeOut?.Invoke();
+		OnFade?.Invoke(FadeType.FadeOut);
 		if (delayInSeconds > 0)
 		{
 			yield return new WaitForSeconds(delayInSeconds);

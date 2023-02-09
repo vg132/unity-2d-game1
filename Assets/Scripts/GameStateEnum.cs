@@ -6,3 +6,9 @@ public enum GameStateEnum
 	GameOver,
 	LevelExit
 }
+
+public enum FadeType
+{
+	FadeOut = 0,
+	FadeIn = 1
+}
