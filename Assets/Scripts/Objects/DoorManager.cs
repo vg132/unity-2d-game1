@@ -44,7 +44,7 @@ public class DoorManager : MonoBehaviour
 			_doorState = DoorStateEnum.Open;
 			_active = true;
 			SoundManager.Instance.PlaySound(_stateChangeSound);
-			GameManager.Instance.LoadNextScene(2);
+			//GameManager.Instance.LoadNextScene(2);
 		}
 	}
 

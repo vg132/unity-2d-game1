@@ -9,14 +9,14 @@ public class SoundManager : MonoBehaviour
 
 	private void Awake()
 	{
-		DontDestroyOnLoad(this);
-		if(_instance == null)
+		if(_instance != null)
 		{
-			_instance = this;
+			Destroy(this);
 		}
 		else
 		{
-			Destroy(gameObject);
+			_instance = this;
+			DontDestroyOnLoad(this);
 		}
 		var audioSources = GetComponents<AudioSource>();
 		_backgroundMusic = audioSources[0];

@@ -14,7 +14,7 @@ public class EnemySpike : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.gameObject.CompareTag("Player") && GameManager.Instance.GameState == GameStateEnum.GameRunning)
+		if (collision.gameObject.CompareTag("Player") && GameManager.Instance.GameState == GameState.Running)
 		{
 			collision.gameObject.GetComponent<PlayerController>().TakeDamage(_damage);
 			SoundManager.Instance.PlaySound(_audioSource);
