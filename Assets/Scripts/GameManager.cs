@@ -19,6 +19,7 @@ namespace Assets.Scripts
 
 		public static event Action<GameState> OnGameStateChanged;
 		public static event Action<FadeType> OnFade;
+		public static event Action OnGameStart;
 
 		#endregion
 
@@ -31,6 +32,7 @@ namespace Assets.Scripts
 			else
 			{
 				_instance = this;
+				DontDestroyOnLoad(this);
 			}
 		}
 
@@ -50,6 +52,12 @@ namespace Assets.Scripts
 			UpdateGameState(GameState.Death);
 			OnFade?.Invoke(FadeType.FadeOut);
 			CallWithDelay(() => GameSceneManager.Instance.LoadScene(GameScenes.GameOver), 2.0f);
+		}
+
+		public void StartGame()
+		{
+			UpdateGameState(GameState.Running);
+			OnGameStart?.Invoke();
 		}
 
 		private void Setup()

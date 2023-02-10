@@ -18,7 +18,6 @@ namespace Assets.Scripts.Audio
 			else
 			{
 				_instance = this;
-				DontDestroyOnLoad(this);
 			}
 			var audioSources = GetComponents<AudioSource>();
 			_backgroundMusic = audioSources[0];

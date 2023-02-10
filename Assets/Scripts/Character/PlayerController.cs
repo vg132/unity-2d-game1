@@ -34,15 +34,24 @@ namespace Assets.Scripts.Character
 		private void Start()
 		{
 			PlayerManager.OnDeath += GameManager_OnDeath;
+			GameManager.OnGameStart += GameManager_OnGameStart;
+		}
+
+		private void GameManager_OnGameStart()
+		{
+			Debug.Log("Enable controller");
+			_playerActionControls.Enable();
 		}
 
 		private void OnDestroy()
 		{
 			PlayerManager.OnDeath -= GameManager_OnDeath;
+			GameManager.OnGameStart -= GameManager_OnGameStart;
 		}
 
 		private void GameManager_OnDeath()
 		{
+			Debug.Log("Disable controller");
 			_playerActionControls.Disable();
 			_playerAnimator.SetTrigger("Death");
 		}

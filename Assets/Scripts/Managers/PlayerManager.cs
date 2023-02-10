@@ -21,6 +21,8 @@ namespace Assets.Scripts.Managers
 		public PlayerManager()
 		{
 			Initialize();
+
+			GameManager.OnGameStart += GameManager_OnGameStart;
 		}
 
 		public static PlayerManager Instance
@@ -39,6 +41,11 @@ namespace Assets.Scripts.Managers
 		{
 			_health = new UnitHealth(10);
 			_points = 0;
+		}
+
+		private void GameManager_OnGameStart()
+		{
+			Initialize();
 		}
 
 		public void UpdatePoints(int pointsAmount)

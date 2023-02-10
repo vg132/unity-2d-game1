@@ -15,8 +15,9 @@ namespace Assets.Scripts.Utils
 			GameSceneManager.Instance.LoadScene(GameScenes.MainMenu);
 		}
 
-		public void RestartGame()
+		public void StartGame()
 		{
+			GameManager.Instance.StartGame();
 			GameSceneManager.Instance.LoadScene(GameScenes.Level1);
 		}
 	}
