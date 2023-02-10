@@ -3,34 +3,37 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class AsyncLoader : MonoBehaviour
+namespace Assets.Scripts.Utils
 {
-	[Header("Menu Screens")]
-	[SerializeField]
-	private GameObject _loadingScreen;
-	[SerializeField]
-	private GameObject _mainMenu;
-
-	[Header("Slider")]
-	[SerializeField]
-	private Slider _loadingSlider;
-
-	public void LoadLevel(string name)
+	public class AsyncLoader : MonoBehaviour
 	{
-		_mainMenu.SetActive(false);
-		_loadingScreen.SetActive(true);
-		StartCoroutine(LoadLevelAsync(name));
-	}
+		[Header("Menu Screens")]
+		[SerializeField]
+		private GameObject _loadingScreen;
+		[SerializeField]
+		private GameObject _mainMenu;
 
-	private IEnumerator LoadLevelAsync(string name)
-	{
-		var loadOperation = SceneManager.LoadSceneAsync(name);
+		[Header("Slider")]
+		[SerializeField]
+		private Slider _loadingSlider;
 
-		while(!loadOperation.isDone)
+		public void LoadLevel(string name)
 		{
-			var loadingProgress = Mathf.Clamp01(loadOperation.progress / 0.9f);
-			_loadingSlider.value = loadingProgress;
-			yield return null;
-		};
+			_mainMenu.SetActive(false);
+			_loadingScreen.SetActive(true);
+			StartCoroutine(LoadLevelAsync(name));
+		}
+
+		private IEnumerator LoadLevelAsync(string name)
+		{
+			var loadOperation = SceneManager.LoadSceneAsync(name);
+
+			while (!loadOperation.isDone)
+			{
+				var loadingProgress = Mathf.Clamp01(loadOperation.progress / 0.9f);
+				_loadingSlider.value = loadingProgress;
+				yield return null;
+			};
+		}
 	}
 }

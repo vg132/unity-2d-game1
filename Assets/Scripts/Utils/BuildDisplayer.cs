@@ -1,27 +1,30 @@
 using TMPro;
 using UnityEngine;
 
-public class BuildDisplayer : MonoBehaviour
+namespace Assets.Scripts.Utils
 {
-	private TextMeshProUGUI _buildText;
-
-	private void Awake()
+	public class BuildDisplayer : MonoBehaviour
 	{
-		_buildText = GetComponent<TextMeshProUGUI>();
-		var resourceLoader = Resources.LoadAsync<BuildScriptableObject>("Build");
-		resourceLoader.completed += ResourceLoader_completed;
-	}
+		private TextMeshProUGUI _buildText;
 
-	private void ResourceLoader_completed(AsyncOperation obj)
-	{
-		var buildScriptableObject = ((ResourceRequest)obj).asset as BuildScriptableObject;
-		if (buildScriptableObject != null)
+		private void Awake()
 		{
-			_buildText.SetText($"Build: v{Application.version}.{buildScriptableObject.BuildNumber}");
+			_buildText = GetComponent<TextMeshProUGUI>();
+			var resourceLoader = Resources.LoadAsync<BuildScriptableObject>("Build");
+			resourceLoader.completed += ResourceLoader_completed;
 		}
-		else
+
+		private void ResourceLoader_completed(AsyncOperation obj)
 		{
-			Debug.LogError($"Expected {nameof(BuildScriptableObject)} but found nothing in assets/resources/build.asset");
+			var buildScriptableObject = ((ResourceRequest)obj).asset as BuildScriptableObject;
+			if (buildScriptableObject != null)
+			{
+				_buildText.SetText($"Build: v{Application.version}.{buildScriptableObject.BuildNumber}");
+			}
+			else
+			{
+				Debug.LogError($"Expected {nameof(BuildScriptableObject)} but found nothing in assets/resources/build.asset");
+			}
 		}
 	}
 }

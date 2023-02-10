@@ -1,24 +1,27 @@
+using Assets.Scripts.Audio;
+using Assets.Scripts.Character;
 using UnityEngine;
-
-public class EnemySpike : MonoBehaviour
+namespace Assets.Scripts.Enemies
 {
-	private AudioSource _audioSource;
-
-	[SerializeField]
-	protected int _damage = 1;
-
-	private void Awake()
+	public class EnemySpike : MonoBehaviour
 	{
-		_audioSource = GetComponent<AudioSource>();
-	}
+		private AudioSource _audioSource;
 
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-		if (collision.gameObject.CompareTag("Player") && GameManager.Instance.GameState == GameState.Running)
+		[SerializeField]
+		protected int _damage = 1;
+
+		private void Awake()
 		{
-			collision.gameObject.GetComponent<PlayerController>().TakeDamage(_damage);
-			SoundManager.Instance.PlaySound(_audioSource);
+			_audioSource = GetComponent<AudioSource>();
+		}
+
+		private void OnCollisionEnter2D(Collision2D collision)
+		{
+			if (collision.gameObject.CompareTag("Player") && GameManager.Instance.GameState == GameState.Running)
+			{
+				collision.gameObject.GetComponent<PlayerController>().TakeDamage(_damage);
+				SoundManager.Instance.PlaySound(_audioSource);
+			}
 		}
 	}
 }
-

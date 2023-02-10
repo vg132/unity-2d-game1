@@ -1,16 +1,36 @@
-public class UnitHealth
+using System;
+
+namespace Assets.Scripts.Health
 {
-	private int _health;
-
-	public UnitHealth(int health)
+	public class UnitHealth
 	{
-		_health = health;
-	}
+		public UnitHealth(int maxAndStartHealth)
+		{
+			CurrentHealth = maxAndStartHealth;
+			FullHealth = maxAndStartHealth;
+		}
 
-	public void TakeDamage(int damageAmount)
-	{
-		_health -= damageAmount;
-	}
+		public UnitHealth(int startHealth, int fullHealth)
+		{
+			CurrentHealth = startHealth;
+			FullHealth = fullHealth;
+		}
 
-	public int Health => _health;
+		public void Heal(int healAmount)
+		{
+			CurrentHealth += healAmount;
+			CurrentHealth = Math.Min(CurrentHealth, FullHealth);
+			CurrentHealth = Math.Max(CurrentHealth, 0);
+		}
+
+		public void TakeDamage(int damageAmount)
+		{
+			CurrentHealth -= damageAmount;
+			CurrentHealth = Math.Min(CurrentHealth, FullHealth);
+			CurrentHealth = Math.Max(CurrentHealth, 0);
+		}
+
+		public int FullHealth { get; set; }
+		public int CurrentHealth { get; private set; }
+	}
 }

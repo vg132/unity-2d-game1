@@ -1,19 +1,23 @@
+using Assets.Scripts.Managers;
 using UnityEngine;
 
-public class GameUtilities : MonoBehaviour
+namespace Assets.Scripts.Utils
 {
-	public void QuitGame()
+	public class GameUtilities : MonoBehaviour
 	{
-		Application.Quit();
-	}
+		public void QuitGame()
+		{
+			Application.Quit();
+		}
 
-	public void ExitToMenu()
-	{
-		GameSceneManager.Instance.LoadScene(GameScenes.MainMenu);
-	}
+		public void ExitToMenu()
+		{
+			GameSceneManager.Instance.LoadScene(GameScenes.MainMenu);
+		}
 
-	public void RestartGame()
-	{
-		GameSceneManager.Instance.LoadScene(GameScenes.Level1);
+		public void RestartGame()
+		{
+			GameSceneManager.Instance.LoadScene(GameScenes.Level1);
+		}
 	}
 }

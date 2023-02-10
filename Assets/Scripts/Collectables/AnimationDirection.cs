@@ -1,6 +1,9 @@
-﻿public enum AnimationDirection
+namespace Assets.Scripts.Collectables
 {
-	None = 0,
-	X = 1,
-	Y = 2
+	public enum AnimationDirection
+	{
+		None = 0,
+		X = 1,
+		Y = 2
+	}
 }

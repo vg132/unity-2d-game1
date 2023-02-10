@@ -1,59 +1,62 @@
+using Assets.Scripts.Audio;
 using UnityEngine;
 
-public class DoorManager : MonoBehaviour
+namespace Assets.Scripts.Objects
 {
-	[SerializeField]
-	private DoorStateEnum _doorState;
-
-	[SerializeField]
-	private GameObject _openDoor;
-	private SpriteRenderer[] _openDoorSpriteRenderers;
-
-	[SerializeField]
-	private GameObject _closedDoor;
-	private SpriteRenderer[] _closedDoorSpriteRenderers;
-
-	[SerializeField]
-	private AudioSource _stateChangeSound;
-
-	[SerializeField]
-	private bool _isFinish = false;
-
-	private bool _active = false;
-
-	private void Awake()
+	public class DoorManager : MonoBehaviour
 	{
-		_openDoorSpriteRenderers = _openDoor.GetComponentsInChildren<SpriteRenderer>();
-		_closedDoorSpriteRenderers = _closedDoor.GetComponentsInChildren<SpriteRenderer>();
-	}
+		[SerializeField]
+		private DoorStateEnum _doorState;
 
-	private void Update()
-	{
-		var isOpen = _doorState == DoorStateEnum.Open;
+		[SerializeField]
+		private GameObject _openDoor;
+		private SpriteRenderer[] _openDoorSpriteRenderers;
 
-		_openDoorSpriteRenderers[0].enabled = isOpen;
-		_openDoorSpriteRenderers[1].enabled = isOpen;
-		_closedDoorSpriteRenderers[0].enabled = !isOpen;
-		_closedDoorSpriteRenderers[1].enabled = !isOpen;
-	}
+		[SerializeField]
+		private GameObject _closedDoor;
+		private SpriteRenderer[] _closedDoorSpriteRenderers;
 
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		if (collision.gameObject.CompareTag("Player") && (!_isFinish || !_active))
+		[SerializeField]
+		private AudioSource _stateChangeSound;
+
+		[SerializeField]
+		private bool _isFinish = false;
+
+		private bool _active = false;
+
+		private void Awake()
 		{
-			_doorState = DoorStateEnum.Open;
-			_active = true;
-			SoundManager.Instance.PlaySound(_stateChangeSound);
-			//GameManager.Instance.LoadNextScene(2);
+			_openDoorSpriteRenderers = _openDoor.GetComponentsInChildren<SpriteRenderer>();
+			_closedDoorSpriteRenderers = _closedDoor.GetComponentsInChildren<SpriteRenderer>();
 		}
-	}
 
-	private void OnTriggerExit2D(Collider2D collision)
-	{
-		if (collision.gameObject.CompareTag("Player") && !_isFinish)
+		private void Update()
 		{
-			_doorState = DoorStateEnum.Closed;
-			SoundManager.Instance.PlaySound(_stateChangeSound);
+			var isOpen = _doorState == DoorStateEnum.Open;
+
+			_openDoorSpriteRenderers[0].enabled = isOpen;
+			_openDoorSpriteRenderers[1].enabled = isOpen;
+			_closedDoorSpriteRenderers[0].enabled = !isOpen;
+			_closedDoorSpriteRenderers[1].enabled = !isOpen;
+		}
+
+		private void OnTriggerEnter2D(Collider2D collision)
+		{
+			if (collision.gameObject.CompareTag("Player") && (!_isFinish || !_active))
+			{
+				_doorState = DoorStateEnum.Open;
+				_active = true;
+				SoundManager.Instance.PlaySound(_stateChangeSound);
+			}
+		}
+
+		private void OnTriggerExit2D(Collider2D collision)
+		{
+			if (collision.gameObject.CompareTag("Player") && !_isFinish)
+			{
+				_doorState = DoorStateEnum.Closed;
+				SoundManager.Instance.PlaySound(_stateChangeSound);
+			}
 		}
 	}
 }

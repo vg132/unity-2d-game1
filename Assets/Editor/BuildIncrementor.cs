@@ -1,3 +1,4 @@
+using Assets.Scripts.Utils;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -9,7 +10,7 @@ public class BuildIncrementor : IPreprocessBuildWithReport
 
 	public void OnPreprocessBuild(BuildReport report)
 	{
-		var buildScriptableObject=ScriptableObject.CreateInstance<BuildScriptableObject>();
+		var buildScriptableObject = ScriptableObject.CreateInstance<BuildScriptableObject>();
 		switch (report.summary.platform)
 		{
 			case BuildTarget.StandaloneWindows:

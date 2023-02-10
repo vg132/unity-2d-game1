@@ -1,49 +1,52 @@
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+namespace Assets.Scripts.Audio
 {
-	private static SoundManager _instance;
-
-	private AudioSource _backgroundMusic;
-	private AudioSource _soundEffect;
-
-	private void Awake()
+	public class SoundManager : MonoBehaviour
 	{
-		if(_instance != null)
+		private static SoundManager _instance;
+
+		private AudioSource _backgroundMusic;
+		private AudioSource _soundEffect;
+
+		private void Awake()
 		{
-			Destroy(this);
+			if (_instance != null)
+			{
+				Destroy(this);
+			}
+			else
+			{
+				_instance = this;
+				DontDestroyOnLoad(this);
+			}
+			var audioSources = GetComponents<AudioSource>();
+			_backgroundMusic = audioSources[0];
+			_soundEffect = audioSources[1];
 		}
-		else
+
+		public static SoundManager Instance => _instance;
+
+		public void Start()
 		{
-			_instance = this;
-			DontDestroyOnLoad(this);
+			_backgroundMusic.Play();
 		}
-		var audioSources = GetComponents<AudioSource>();
-		_backgroundMusic = audioSources[0];
-		_soundEffect = audioSources[1];
-	}
 
-	public static SoundManager Instance => _instance;
-
-	public void Start()
-	{
-		_backgroundMusic.Play();
-	}
-
-	public void PlaySound(AudioClip audioClip)
-	{
-		if(audioClip!=null)
+		public void PlaySound(AudioClip audioClip)
 		{
-			_soundEffect.clip = audioClip;
-			_soundEffect.Play();
+			if (audioClip != null)
+			{
+				_soundEffect.clip = audioClip;
+				_soundEffect.Play();
+			}
 		}
-	}
 
-	public void PlaySound(AudioSource audioSource)
-	{
-		if (audioSource != null)
+		public void PlaySound(AudioSource audioSource)
 		{
-			audioSource.Play();
+			if (audioSource != null)
+			{
+				audioSource.Play();
+			}
 		}
 	}
 }

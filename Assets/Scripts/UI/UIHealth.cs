@@ -1,28 +1,32 @@
+using Assets.Scripts.Managers;
 using TMPro;
 using UnityEngine;
 
-public class UIHealth : MonoBehaviour
+namespace Assets.Scripts.UI
 {
-	private TextMeshProUGUI _healthText;
-
-	private void Awake()
+	public class UIHealth : MonoBehaviour
 	{
-		_healthText = GetComponent<TextMeshProUGUI>();
-	}
+		private TextMeshProUGUI _healthText;
 
-	private void Start()
-	{
-		GameManager.OnHealthChanged += GameManager_OnHealthChanged;
-		_healthText.SetText($"Health: {GameManager.Instance.Health.Health}");
-	}
+		private void Awake()
+		{
+			_healthText = GetComponent<TextMeshProUGUI>();
+		}
 
-	private void OnDestroy()
-	{
-		GameManager.OnHealthChanged -= GameManager_OnHealthChanged;
-	}
+		private void Start()
+		{
+			PlayerManager.OnHealthChanged += GameManager_OnHealthChanged;
+			_healthText.SetText($"Health: {PlayerManager.Instance.CurrentHealth}");
+		}
 
-	private void GameManager_OnHealthChanged(int obj)
-	{
-		_healthText.SetText($"Health: {GameManager.Instance.Health.Health}");
+		private void OnDestroy()
+		{
+			PlayerManager.OnHealthChanged -= GameManager_OnHealthChanged;
+		}
+
+		private void GameManager_OnHealthChanged(int obj)
+		{
+			_healthText.SetText($"Health: {PlayerManager.Instance.CurrentHealth}");
+		}
 	}
 }

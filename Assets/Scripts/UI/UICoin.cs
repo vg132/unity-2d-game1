@@ -1,23 +1,27 @@
+using Assets.Scripts.Managers;
 using TMPro;
 using UnityEngine;
 
-public class UICoin : MonoBehaviour
+namespace Assets.Scripts.UI
 {
-	private TextMeshProUGUI _coinText;
-
-	private void Awake()
+	public class UICoin : MonoBehaviour
 	{
-		_coinText = GetComponent<TextMeshProUGUI>();
-	}
+		private TextMeshProUGUI _coinText;
 
-	private void Start()
-	{
-		GameManager.OnPointsChanged += GameManager_OnPointsChanged;
-		_coinText.SetText($"Coins: {GameManager.Instance.Points}");
-	}
+		private void Awake()
+		{
+			_coinText = GetComponent<TextMeshProUGUI>();
+		}
 
-	private void GameManager_OnPointsChanged(int points)
-	{
-		_coinText.SetText($"Coins: {points}");
+		private void Start()
+		{
+			PlayerManager.OnPointsChanged += GameManager_OnPointsChanged;
+			_coinText.SetText($"Coins: {PlayerManager.Instance.Points}");
+		}
+
+		private void GameManager_OnPointsChanged(int points)
+		{
+			_coinText.SetText($"Coins: {points}");
+		}
 	}
 }

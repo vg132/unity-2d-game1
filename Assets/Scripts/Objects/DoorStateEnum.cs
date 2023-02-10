@@ -1,5 +1,8 @@
-﻿public enum DoorStateEnum
+namespace Assets.Scripts.Objects
 {
-	Open,
-	Closed
+	public enum DoorStateEnum
+	{
+		Open,
+		Closed
+	}
 }

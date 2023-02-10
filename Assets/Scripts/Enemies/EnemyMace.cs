@@ -1,36 +1,41 @@
+using Assets.Scripts.Audio;
+using Assets.Scripts.Character;
 using UnityEngine;
 
-public class EnemyMace : MonoBehaviour
+namespace Assets.Scripts.Enemies
 {
-	private AudioSource _audioSource;
-	private Vector3 startPosition;
-
-	[SerializeField]
-	private float _amplitude = 2.0f;
-	[SerializeField]
-	protected int _damage = 1;
-
-	private void Awake()
+	public class EnemyMace : MonoBehaviour
 	{
-		_audioSource = GetComponent<AudioSource>();
-	}
+		private AudioSource _audioSource;
+		private Vector3 startPosition;
 
-	private void Start()
-	{
-		startPosition = transform.position;
-	}
+		[SerializeField]
+		private float _amplitude = 2.0f;
+		[SerializeField]
+		protected int _damage = 1;
 
-	private void Update()
-	{
-		transform.position = startPosition + _amplitude * new Vector3(0.0f, Mathf.Sin(Time.time), 0.0f);
-	}
-
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-		if (collision.gameObject.CompareTag("Player") && GameManager.Instance.GameState == GameState.Running)
+		private void Awake()
 		{
-			collision.gameObject.GetComponent<PlayerController>().TakeDamage(_damage);
-			SoundManager.Instance.PlaySound(_audioSource);
+			_audioSource = GetComponent<AudioSource>();
+		}
+
+		private void Start()
+		{
+			startPosition = transform.position;
+		}
+
+		private void Update()
+		{
+			transform.position = startPosition + _amplitude * new Vector3(0.0f, Mathf.Sin(Time.time), 0.0f);
+		}
+
+		private void OnCollisionEnter2D(Collision2D collision)
+		{
+			if (collision.gameObject.CompareTag("Player") && GameManager.Instance.GameState == GameState.Running)
+			{
+				collision.gameObject.GetComponent<PlayerController>().TakeDamage(_damage);
+				SoundManager.Instance.PlaySound(_audioSource);
+			}
 		}
 	}
 }

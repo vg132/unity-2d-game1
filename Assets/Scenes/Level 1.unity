@@ -3391,6 +3391,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1915522193}
     m_Modifications:
+    - target: {fileID: 8538180375675704549, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538180375722034646, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538180375902365004, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538180375945289870, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538180376048506685, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538180376793593897, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8538180377076607264, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -3446,6 +3470,10 @@ PrefabInstance:
     - target: {fileID: 8538180377076607268, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}
       propertyPath: m_Name
       value: Exit Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538180377076607268, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78273f230cf07ea4e8078c7fce21236d, type: 3}

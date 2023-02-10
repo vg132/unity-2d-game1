@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class BuildScriptableObject : ScriptableObject
+namespace Assets.Scripts.Utils
 {
-	public string BuildNumber = "1";
+	public class BuildScriptableObject : ScriptableObject
+	{
+		public string BuildNumber = "1";
+	}
 }
