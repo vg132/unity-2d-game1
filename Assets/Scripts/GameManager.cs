@@ -20,6 +20,7 @@ namespace Assets.Scripts
 		public static event Action<GameState> OnGameStateChanged;
 		public static event Action<FadeType> OnFade;
 		public static event Action OnGameStart;
+		public static event Action OnLevelFinished;
 
 		#endregion
 
@@ -39,12 +40,14 @@ namespace Assets.Scripts
 		private void Start()
 		{
 			PlayerManager.OnDeath += PlayerManager_OnDeath;
+			GameSceneManager.OnSceneLoaded += GameSceneManager_OnSceneLoaded;
 			Setup();
 		}
 
 		private void OnDestroy()
 		{
 			PlayerManager.OnDeath -= PlayerManager_OnDeath;
+			GameSceneManager.OnSceneLoaded -= GameSceneManager_OnSceneLoaded;
 		}
 
 		private void PlayerManager_OnDeath()
@@ -54,10 +57,30 @@ namespace Assets.Scripts
 			CallWithDelay(() => GameSceneManager.Instance.LoadScene(GameScenes.GameOver), 2.0f);
 		}
 
+		private void GameSceneManager_OnSceneLoaded(UnityEngine.SceneManagement.Scene scene)
+		{
+			switch(scene.buildIndex)
+			{
+				case (int)GameScenes.MainMenu:
+				case (int)GameScenes.GameOver:
+					break;
+				default:
+					OnFade?.Invoke(FadeType.FadeIn);
+					break;
+			}
+		}
+
 		public void StartGame()
 		{
 			UpdateGameState(GameState.Running);
 			OnGameStart?.Invoke();
+		}
+
+		public void LevelFinished()
+		{
+			OnLevelFinished?.Invoke();
+			OnFade?.Invoke(FadeType.FadeOut);
+			CallWithDelay(() => GameSceneManager.Instance.LoadScene(GameScenes.Level2), 2.0f);
 		}
 
 		private void Setup()

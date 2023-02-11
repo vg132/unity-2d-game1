@@ -35,18 +35,26 @@ namespace Assets.Scripts.Character
 		{
 			PlayerManager.OnDeath += GameManager_OnDeath;
 			GameManager.OnGameStart += GameManager_OnGameStart;
-		}
-
-		private void GameManager_OnGameStart()
-		{
-			Debug.Log("Enable controller");
-			_playerActionControls.Enable();
+			GameManager.OnLevelFinished += GameManager_OnLevelFinished;
 		}
 
 		private void OnDestroy()
 		{
 			PlayerManager.OnDeath -= GameManager_OnDeath;
 			GameManager.OnGameStart -= GameManager_OnGameStart;
+			GameManager.OnLevelFinished -= GameManager_OnLevelFinished;
+		}
+
+		private void GameManager_OnLevelFinished()
+		{
+			Debug.Log("Disable controlls, level finished");
+			_playerActionControls.Disable();
+		}
+
+		private void GameManager_OnGameStart()
+		{
+			Debug.Log("Enable controller");
+			_playerActionControls.Enable();
 		}
 
 		private void GameManager_OnDeath()

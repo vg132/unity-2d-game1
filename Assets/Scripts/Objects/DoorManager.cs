@@ -44,6 +44,7 @@ namespace Assets.Scripts.Objects
 		{
 			if (collision.gameObject.CompareTag("Player") && (!_isFinish || !_active))
 			{
+				GameManager.Instance.LevelFinished();
 				_doorState = DoorStateEnum.Open;
 				_active = true;
 				SoundManager.Instance.PlaySound(_stateChangeSound);
