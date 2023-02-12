@@ -10,23 +10,32 @@ namespace GameOne.Character
 		private float _speed;
 
 		[SerializeField]
-		public float jumpHeight = 2.5f;
+		public float _jumpHeight = 2.5f;
 
 		[SerializeField]
-		public float timeToJumpApex = 1.0f;
+		public float _doubleJumpHeight = 1.5f;
+
+		[SerializeField]
+		public float _timeToJumpApex = 1.0f;
 
 		[SerializeField]
 		private LayerMask _ground;
-
-		bool _jumping = false;
-		private float _jumpVelocity;
-		private float _gravity;
 
 		private PlayerActionControls _playerActionControls;
 		private Rigidbody2D _playerObject;
 		private Collider2D _playerCollider;
 		private Animator _playerAnimator;
 		private SpriteRenderer _spriteRenderer;
+
+		bool _isJumping = false;
+		bool _hasWallJumped = false;
+		bool _hasDoubleJumped = false;
+
+		private float _jumpVelocity;
+		private float _maxDoubleJumpVelocity;
+		private float _currentDoubleJumpVelocity;
+		private float _gravity;
+		private float _doubleJumpGravity;
 
 		private void Awake()
 		{
@@ -48,8 +57,10 @@ namespace GameOne.Character
 			GameManager.OnGameStart += GameManager_OnGameStart;
 			GameManager.OnLevelFinished += GameManager_OnLevelFinished;
 
-			_gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
-			_jumpVelocity = Mathf.Abs(_gravity) * timeToJumpApex;
+			_gravity = -(2 * _jumpHeight) / Mathf.Pow(_timeToJumpApex, 2);
+			_jumpVelocity = Mathf.Abs(_gravity) * _timeToJumpApex;
+			_doubleJumpGravity = -(2 * _doubleJumpHeight) / Mathf.Pow(_timeToJumpApex, 2);
+			_maxDoubleJumpVelocity = Mathf.Abs(_doubleJumpGravity) * _timeToJumpApex;
 		}
 
 		private void OnDestroy()
@@ -64,14 +75,46 @@ namespace GameOne.Character
 
 		private void Jump(InputAction.CallbackContext ctx)
 		{
-			if (ctx.started && IsGrounded())
+			if (ctx.started)
 			{
-				_jumping = true;
-				_playerAnimator.SetTrigger("Jump");
+				var groundDetection = IsGrounded();
+				if (groundDetection && groundDetection.normal.y != 0)
+				{
+					_playerAnimator.SetTrigger("Jump");
+					_isJumping = true;
+					_hasDoubleJumped = false;
+					_hasWallJumped = false;
+					Debug.Log("Normal jump");
+				}
+				else if (groundDetection && groundDetection.normal.x != 0 && !_hasWallJumped)
+				{
+					_playerAnimator.SetTrigger("Jump");
+					_isJumping = true;
+					_hasWallJumped = true;
+					Debug.Log("Wall jump");
+				}
+				else if (!_hasDoubleJumped)
+				{
+					_playerAnimator.SetTrigger("Jump");
+					_isJumping = true;
+					_hasDoubleJumped = true;
+
+					var currentYVelocity = _playerObject.velocity.y;
+					if (Mathf.Abs(currentYVelocity) > 0.75f)
+					{
+						_currentDoubleJumpVelocity = _maxDoubleJumpVelocity - _jumpVelocity - (Mathf.Abs(currentYVelocity) * 1.5f);
+						_currentDoubleJumpVelocity = Mathf.Max(_maxDoubleJumpVelocity / 3, _currentDoubleJumpVelocity);
+					}
+					else
+					{
+						_currentDoubleJumpVelocity = _maxDoubleJumpVelocity;
+					}
+					Debug.Log($"Double jump: Velocity: {currentYVelocity}, Double jump velocity: {_currentDoubleJumpVelocity}");
+				}
 			}
 			else
 			{
-				_jumping = false;
+				_isJumping = false;
 			}
 		}
 
@@ -104,17 +147,9 @@ namespace GameOne.Character
 			_playerActionControls.Disable();
 		}
 
-		private bool IsGrounded()
+		private RaycastHit2D IsGrounded()
 		{
-			var topLeftPoint = transform.position;
-			topLeftPoint.x -= _playerCollider.bounds.extents.x;
-			topLeftPoint.y = _playerCollider.bounds.extents.y;
-
-			var bottomRightPoint = transform.position;
-			bottomRightPoint.x += _playerCollider.bounds.extents.x;
-			bottomRightPoint.y -= _playerCollider.bounds.extents.y;
-
-			return Physics2D.OverlapArea(topLeftPoint, bottomRightPoint, _ground);
+			return Physics2D.BoxCast(_playerCollider.bounds.center, _playerCollider.bounds.size, 0f, Vector2.down, .1f, _ground);
 		}
 
 		private void Update()
@@ -123,15 +158,19 @@ namespace GameOne.Character
 			{
 				return;
 			}
-			var velocity = _playerObject.velocity;
-			if (_jumping)
-			{
-				velocity.y = _jumpVelocity;
-			}
-			velocity.y += _gravity * Time.deltaTime;
-			_playerObject.velocity = velocity;
-
+			JumpVelocity();
 			Move();
+		}
+
+		private void JumpVelocity()
+		{
+			var velocity = _playerObject.velocity;
+			if (_isJumping)
+			{
+				velocity.y = _hasDoubleJumped ? _currentDoubleJumpVelocity : _jumpVelocity;
+			}
+			velocity.y += (_hasDoubleJumped ? _doubleJumpGravity : _gravity) * Time.deltaTime;
+			_playerObject.velocity = velocity;
 		}
 
 		private void Move()
