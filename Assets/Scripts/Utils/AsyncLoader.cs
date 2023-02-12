@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Utils
+namespace GameOne.Utils
 {
 	public class AsyncLoader : MonoBehaviour
 	{

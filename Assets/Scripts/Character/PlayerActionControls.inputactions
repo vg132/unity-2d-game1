@@ -16,8 +16,17 @@
                 },
                 {
                     "name": "Jump",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "92863091-dfef-4132-99c7-5e4d9d538e7a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test",
+                    "type": "Button",
+                    "id": "be50656d-0d1c-4be2-91cf-de436e644f06",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -110,6 +119,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "14e82a5f-1f93-4897-9640-7f5ead145d3e",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "Hold(duration=0.3)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

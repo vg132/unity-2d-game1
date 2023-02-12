@@ -1,6 +1,6 @@
 using System;
 
-namespace Assets.Scripts.Health
+namespace GameOne.Health
 {
 	public class UnitHealth
 	{

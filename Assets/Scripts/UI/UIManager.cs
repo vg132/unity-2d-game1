@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace GameOne.UI
 {
 	public class UIManager : MonoBehaviour
 	{

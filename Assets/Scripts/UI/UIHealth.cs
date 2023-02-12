@@ -1,8 +1,8 @@
-using Assets.Scripts.Managers;
+using GameOne.Managers;
 using TMPro;
 using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace GameOne.UI
 {
 	public class UIHealth : MonoBehaviour
 	{

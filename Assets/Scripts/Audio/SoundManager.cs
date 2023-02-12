@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Audio
+namespace GameOne.Audio
 {
 	public class SoundManager : MonoBehaviour
 	{

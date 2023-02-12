@@ -1,7 +1,8 @@
-using Assets.Scripts.Managers;
+using GameOne.Managers;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-namespace Assets.Scripts.Character
+namespace GameOne.Character
 {
 	public class PlayerController : MonoBehaviour
 	{
@@ -9,10 +10,17 @@ namespace Assets.Scripts.Character
 		private float _speed;
 
 		[SerializeField]
-		private float _jumpSpeed;
+		public float jumpHeight = 2.5f;
+
+		[SerializeField]
+		public float timeToJumpApex = 1.0f;
 
 		[SerializeField]
 		private LayerMask _ground;
+
+		bool _jumping = false;
+		private float _jumpVelocity;
+		private float _gravity;
 
 		private PlayerActionControls _playerActionControls;
 		private Rigidbody2D _playerObject;
@@ -28,7 +36,10 @@ namespace Assets.Scripts.Character
 			_spriteRenderer = GetComponent<SpriteRenderer>();
 
 			_playerActionControls = new PlayerActionControls();
-			_playerActionControls.Land.Jump.performed += ctx => Jump(ctx);
+
+			_playerActionControls.Land.Jump.performed += Jump;
+			_playerActionControls.Land.Jump.started += Jump;
+			_playerActionControls.Land.Jump.canceled += Jump;
 		}
 
 		private void Start()
@@ -36,6 +47,9 @@ namespace Assets.Scripts.Character
 			PlayerManager.OnDeath += GameManager_OnDeath;
 			GameManager.OnGameStart += GameManager_OnGameStart;
 			GameManager.OnLevelFinished += GameManager_OnLevelFinished;
+
+			_gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+			_jumpVelocity = Mathf.Abs(_gravity) * timeToJumpApex;
 		}
 
 		private void OnDestroy()
@@ -43,6 +57,22 @@ namespace Assets.Scripts.Character
 			PlayerManager.OnDeath -= GameManager_OnDeath;
 			GameManager.OnGameStart -= GameManager_OnGameStart;
 			GameManager.OnLevelFinished -= GameManager_OnLevelFinished;
+			_playerActionControls.Land.Test.performed -= Jump;
+			_playerActionControls.Land.Test.started -= Jump;
+			_playerActionControls.Land.Test.canceled -= Jump;
+		}
+
+		private void Jump(InputAction.CallbackContext ctx)
+		{
+			if (ctx.started && IsGrounded())
+			{
+				_jumping = true;
+				_playerAnimator.SetTrigger("Jump");
+			}
+			else
+			{
+				_jumping = false;
+			}
 		}
 
 		private void GameManager_OnLevelFinished()
@@ -74,19 +104,6 @@ namespace Assets.Scripts.Character
 			_playerActionControls.Disable();
 		}
 
-		private void Jump(UnityEngine.InputSystem.InputAction.CallbackContext context)
-		{
-			if (GameManager.Instance.GameState != GameState.Running)
-			{
-				return;
-			}
-			if (IsGrounded())
-			{
-				_playerObject.AddForce(new Vector2(0, _jumpSpeed), ForceMode2D.Impulse);
-				_playerAnimator.SetTrigger("Jump");
-			}
-		}
-
 		private bool IsGrounded()
 		{
 			var topLeftPoint = transform.position;
@@ -106,6 +123,14 @@ namespace Assets.Scripts.Character
 			{
 				return;
 			}
+			var velocity = _playerObject.velocity;
+			if (_jumping)
+			{
+				velocity.y = _jumpVelocity;
+			}
+			velocity.y += _gravity * Time.deltaTime;
+			_playerObject.velocity = velocity;
+
 			Move();
 		}
 

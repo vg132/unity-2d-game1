@@ -1,8 +1,9 @@
 using System;
+using GameOne;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Assets.Scripts.Managers
+namespace GameOne.Managers
 {
 	public class GameSceneManager
 	{

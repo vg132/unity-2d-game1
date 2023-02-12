@@ -1,7 +1,7 @@
-using Assets.Scripts.Audio;
+using GameOne.Audio;
 using UnityEngine;
 
-namespace Assets.Scripts.Objects
+namespace GameOne.Objects
 {
 	public class DoorManager : MonoBehaviour
 	{

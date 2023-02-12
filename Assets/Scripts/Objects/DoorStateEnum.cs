@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Objects
+namespace GameOne.Objects
 {
 	public enum DoorStateEnum
 	{

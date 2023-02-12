@@ -49,7 +49,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _jumpSpeed: 5
+  jumpHeight: 2.5
+  timeToJumpApex: 1
   _ground:
     serializedVersion: 2
     m_Bits: 64

@@ -1,4 +1,4 @@
-namespace Assets.Scripts
+namespace GameOne
 {
 	public enum GameState
 	{
@@ -22,5 +22,6 @@ namespace Assets.Scripts
 		GameOver = 2,
 		Level2 = 3,
 		Level3 = 4,
+		Test = 5
 	}
 }

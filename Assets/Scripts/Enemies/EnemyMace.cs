@@ -1,8 +1,8 @@
-using Assets.Scripts.Audio;
-using Assets.Scripts.Character;
+using GameOne.Audio;
+using GameOne.Character;
 using UnityEngine;
 
-namespace Assets.Scripts.Enemies
+namespace GameOne.Enemies
 {
 	public class EnemyMace : MonoBehaviour
 	{

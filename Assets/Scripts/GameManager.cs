@@ -1,10 +1,9 @@
-using Assets.Scripts.Audio;
-using Assets.Scripts.Managers;
+using GameOne.Managers;
 using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace GameOne
 {
 	public class GameManager : MonoBehaviour
 	{

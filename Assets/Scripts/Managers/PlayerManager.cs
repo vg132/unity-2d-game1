@@ -1,7 +1,7 @@
-using Assets.Scripts.Health;
+using GameOne.Health;
 using System;
 
-namespace Assets.Scripts.Managers
+namespace GameOne.Managers
 {
 	public class PlayerManager
 	{

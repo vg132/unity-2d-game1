@@ -1,4 +1,5 @@
-using Assets.Scripts.Managers;
+using GameOne;
+using GameOne.Managers;
 using UnityEngine;
 
 namespace Assets.Scripts.Utils

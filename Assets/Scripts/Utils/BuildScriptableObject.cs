@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Utils
+namespace GameOne.Utils
 {
 	public class BuildScriptableObject : ScriptableObject
 	{

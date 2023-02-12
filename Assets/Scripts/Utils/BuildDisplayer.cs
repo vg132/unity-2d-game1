@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Assets.Scripts.Utils
+namespace GameOne.Utils
 {
 	public class BuildDisplayer : MonoBehaviour
 	{

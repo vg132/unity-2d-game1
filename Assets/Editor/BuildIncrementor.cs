@@ -1,4 +1,4 @@
-using Assets.Scripts.Utils;
+using GameOne.Utils;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;

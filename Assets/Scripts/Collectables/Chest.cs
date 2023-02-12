@@ -1,8 +1,8 @@
-using Assets.Scripts.Audio;
-using Assets.Scripts.Managers;
+using GameOne.Audio;
+using GameOne.Managers;
 using UnityEngine;
 
-namespace Assets.Scripts.Collectables
+namespace GameOne.Collectables
 {
 	public class Chest : MonoBehaviour
 	{

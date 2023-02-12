@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Collectables
+namespace GameOne.Collectables
 {
 	public enum AnimationDirection
 	{
