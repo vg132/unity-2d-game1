@@ -7,16 +7,28 @@ namespace GameOne.Character
 	public class PlayerController : MonoBehaviour
 	{
 		[SerializeField]
+		[Range(1f, 10f)]
 		private float _speed;
 
 		[SerializeField]
+		[Range(1f, 10f)]
 		public float _jumpHeight = 2.5f;
 
 		[SerializeField]
+		[Range(1f, 10f)]
 		public float _doubleJumpHeight = 1.5f;
 
 		[SerializeField]
+		[Range(1f, 10f)]
 		public float _timeToJumpApex = 1.0f;
+
+		[SerializeField]
+		[Range(1f, 10f)]
+		public float fallMultiplier = 2.5f;
+
+		[SerializeField]
+		[Range(1f, 10f)]
+		public float lowJumpMultiplier = 2f;
 
 		[SerializeField]
 		private LayerMask _ground;
@@ -90,14 +102,12 @@ namespace GameOne.Character
 					_isJumping = true;
 					_hasDoubleJumped = false;
 					_hasWallJumped = false;
-					Debug.Log("Jump");
 				}
 				else if (_enableWallJump && groundDetection && groundDetection.normal.x != 0 && !_hasWallJumped)
 				{
 					_playerAnimator.SetTrigger("Jump");
 					_isJumping = true;
 					_hasWallJumped = true;
-					Debug.Log("Wall jump");
 				}
 				else if (_enableDoubleJump && !_hasDoubleJumped)
 				{
@@ -115,7 +125,6 @@ namespace GameOne.Character
 					{
 						_currentDoubleJumpVelocity = _maxDoubleJumpVelocity;
 					}
-					Debug.Log($"Double jump");
 				}
 			}
 			else
@@ -164,21 +173,33 @@ namespace GameOne.Character
 			{
 				return;
 			}
-			JumpVelocity();
+			Jump();
 			Move();
-			var grounded = IsGrounded();
-			Debug.Log($"Grounded: {grounded.normal} {_playerObject.velocity}");
 		}
 
-		private void JumpVelocity()
+
+
+		private void Jump()
 		{
-			var velocity = _playerObject.velocity;
 			if (_isJumping)
 			{
+				var velocity = _playerObject.velocity;
 				velocity.y = _hasDoubleJumped ? _currentDoubleJumpVelocity : _jumpVelocity;
+				_playerObject.velocity = velocity;
 			}
-			velocity.y += (_hasDoubleJumped ? _doubleJumpGravity : _gravity) * Time.deltaTime;
-			_playerObject.velocity = velocity;
+			
+			if (_playerObject.velocity.y < 0f)
+			{
+				_playerObject.gravityScale = fallMultiplier;
+			}
+			else if (_playerObject.velocity.y > 0f && !_isJumping)
+			{
+				_playerObject.gravityScale = lowJumpMultiplier;
+			}
+			else
+			{
+				_playerObject.gravityScale = 1f;
+			}
 		}
 
 		private void Move()
