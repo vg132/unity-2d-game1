@@ -21,6 +21,12 @@ namespace GameOne.Character
 		[SerializeField]
 		private LayerMask _ground;
 
+		[SerializeField]
+		private bool _enableDoubleJump;
+
+		[SerializeField]
+		private bool _enableWallJump;
+
 		private PlayerActionControls _playerActionControls;
 		private Rigidbody2D _playerObject;
 		private Collider2D _playerCollider;
@@ -84,16 +90,16 @@ namespace GameOne.Character
 					_isJumping = true;
 					_hasDoubleJumped = false;
 					_hasWallJumped = false;
-					Debug.Log("Normal jump");
+					Debug.Log("Jump");
 				}
-				else if (groundDetection && groundDetection.normal.x != 0 && !_hasWallJumped)
+				else if (_enableWallJump && groundDetection && groundDetection.normal.x != 0 && !_hasWallJumped)
 				{
 					_playerAnimator.SetTrigger("Jump");
 					_isJumping = true;
 					_hasWallJumped = true;
 					Debug.Log("Wall jump");
 				}
-				else if (!_hasDoubleJumped)
+				else if (_enableDoubleJump && !_hasDoubleJumped)
 				{
 					_playerAnimator.SetTrigger("Jump");
 					_isJumping = true;
@@ -109,7 +115,7 @@ namespace GameOne.Character
 					{
 						_currentDoubleJumpVelocity = _maxDoubleJumpVelocity;
 					}
-					Debug.Log($"Double jump: Velocity: {currentYVelocity}, Double jump velocity: {_currentDoubleJumpVelocity}");
+					Debug.Log($"Double jump");
 				}
 			}
 			else
@@ -160,6 +166,8 @@ namespace GameOne.Character
 			}
 			JumpVelocity();
 			Move();
+			var grounded = IsGrounded();
+			Debug.Log($"Grounded: {grounded.normal} {_playerObject.velocity}");
 		}
 
 		private void JumpVelocity()
