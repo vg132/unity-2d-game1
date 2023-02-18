@@ -75,11 +75,11 @@ namespace GameOne
 			OnGameStart?.Invoke();
 		}
 
-		public void LevelFinished()
+		public void LevelFinished(GameScenes gameScene)
 		{
 			OnLevelFinished?.Invoke();
 			OnFade?.Invoke(FadeType.FadeOut);
-			CallWithDelay(() => GameSceneManager.Instance.LoadScene(GameScenes.Level2), 2.0f);
+			CallWithDelay(() => GameSceneManager.Instance.LoadScene(gameScene), 2.0f);
 		}
 
 		private void Setup()

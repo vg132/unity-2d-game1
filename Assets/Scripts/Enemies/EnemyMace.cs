@@ -10,8 +10,11 @@ namespace GameOne.Enemies
 		private Vector3 startPosition;
 
 		[SerializeField]
+		[Range(0f, 10f)]
 		private float _amplitude = 2.0f;
+
 		[SerializeField]
+		[Range(0f, 10f)]
 		protected int _damage = 1;
 
 		private void Awake()

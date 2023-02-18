@@ -7,8 +7,12 @@ namespace GameOne.Character
 	public class PlayerController : MonoBehaviour
 	{
 		[SerializeField]
-		[Range(1f, 10f)]
-		private float _speed;
+		[Range(1f, 20f)]
+		private float _walkingSpeed=5.0f;
+
+		[SerializeField]
+		[Range(1f, 20f)]
+		private float _runningSpeed=7.0f;
 
 		[SerializeField]
 		[Range(1f, 10f)]
@@ -86,9 +90,10 @@ namespace GameOne.Character
 			PlayerManager.OnDeath -= GameManager_OnDeath;
 			GameManager.OnGameStart -= GameManager_OnGameStart;
 			GameManager.OnLevelFinished -= GameManager_OnLevelFinished;
-			_playerActionControls.Land.Test.performed -= Jump;
-			_playerActionControls.Land.Test.started -= Jump;
-			_playerActionControls.Land.Test.canceled -= Jump;
+
+			_playerActionControls.Land.Jump.performed -= Jump;
+			_playerActionControls.Land.Jump.started -= Jump;
+			_playerActionControls.Land.Jump.canceled -= Jump;
 		}
 
 		private void Jump(InputAction.CallbackContext ctx)
@@ -205,8 +210,9 @@ namespace GameOne.Character
 		private void Move()
 		{
 			var movmentInput = _playerActionControls.Land.Move.ReadValue<float>();
+			var speed = _playerActionControls.Land.Run.IsPressed() ? _runningSpeed : _walkingSpeed;
 			var currentPosition = transform.position;
-			currentPosition.x += movmentInput * _speed * Time.deltaTime;
+			currentPosition.x += movmentInput * speed * Time.deltaTime;
 			transform.position = currentPosition;
 			_playerAnimator.SetBool("Run", movmentInput != 0);
 			if (movmentInput < 0)

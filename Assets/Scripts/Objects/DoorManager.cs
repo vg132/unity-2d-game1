@@ -9,6 +9,9 @@ namespace GameOne.Objects
 		private DoorStateEnum _doorState;
 
 		[SerializeField]
+		private GameScenes _nextScene;
+
+		[SerializeField]
 		private GameObject _openDoor;
 		private SpriteRenderer[] _openDoorSpriteRenderers;
 
@@ -44,7 +47,7 @@ namespace GameOne.Objects
 		{
 			if (collision.gameObject.CompareTag("Player") && (!_isFinish || !_active))
 			{
-				GameManager.Instance.LevelFinished();
+				GameManager.Instance.LevelFinished(_nextScene);
 				_doorState = DoorStateEnum.Open;
 				_active = true;
 				SoundManager.Instance.PlaySound(_stateChangeSound);

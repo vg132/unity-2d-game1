@@ -24,9 +24,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Test",
+                    "name": "Run",
                     "type": "Button",
-                    "id": "be50656d-0d1c-4be2-91cf-de436e644f06",
+                    "id": "0827c6a1-c169-45da-96f6-da4363fc1bda",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -124,12 +124,12 @@
                 },
                 {
                     "name": "",
-                    "id": "14e82a5f-1f93-4897-9640-7f5ead145d3e",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "Hold(duration=0.3)",
+                    "id": "3d8087de-0cee-40eb-bca6-ef4bdd6e0bb4",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Test",
+                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
